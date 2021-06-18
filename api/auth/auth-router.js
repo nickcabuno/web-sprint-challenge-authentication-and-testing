@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const { checkUsernameExists, validateRoleName } = require('./auth-middleware');
 const { JWT_SECRET } = require("../secrets");
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
@@ -6,7 +7,7 @@ const User = require('../users/users-model')
 
 
 
-router.post('/register', (req, res, next) => {
+router.post('/register', validateRoleName, (req, res, next) => {
 
   /*
     IMPLEMENT
@@ -43,8 +44,7 @@ router.post('/register', (req, res, next) => {
     .catch(next)
 });
 
-router.post('/login', (req, res, next) => {
-  res.end('implement login, please!');
+router.post('/login', checkUsernameExists, (req, res, next) => {
   /*
     IMPLEMENT
     You are welcome to build additional middlewares to help with the endpoint's functionality.
